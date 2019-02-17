@@ -1,0 +1,6 @@
+header{
+  background-color: var(--dark);
+  box-shadow: 0 0 .5rem var(--dark);
+  color: var(--white);
+  padding: 1rem;
+}
