@@ -26,6 +26,6 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-@import '../assets/css/settings';
-@import '../assets/css/table';
+@import '../assets/css/settings.postcss';
+@import '../assets/css/table.postcss';
 </style>

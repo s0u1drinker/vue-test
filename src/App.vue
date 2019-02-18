@@ -37,6 +37,6 @@ export default {
 <style lang="postcss">
 @import './assets/css/normalize';
 
-@import './assets/css/settings';
-@import './assets/css/app';
+@import './assets/css/settings.postcss';
+@import './assets/css/app.postcss';
 </style>

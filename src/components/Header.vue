@@ -11,6 +11,6 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-@import '../assets/css/settings';
-@import '../assets/css/header';
+@import '../assets/css/settings.postcss';
+@import '../assets/css/header.postcss';
 </style>
