@@ -1,9 +1,38 @@
 table{
-  border: 1px solid var(--dark);
+  border: .125rem solid var(--dark);
+  border-collapse: collapse;
+  text-align: center;
 
   & > caption{
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
+  }
+
+  & td,
+  & th{
+    padding: .5rem 1rem;
+  }
+
+  & thead{
+    background-color: var(--primary);
+    border-bottom: .125rem solid var(--dark);
+    color: var(--white);
+  }
+
+  & tbody{
+
+    & tr{
+      transition: all .3s ease-out;
+
+      &:nth-child(even){
+        background-color: var(--accent);
+      }
+
+      &:hover{
+        background-color: var(--lightprimary);
+        color: var(--white);
+      }
+    }
   }
 }
