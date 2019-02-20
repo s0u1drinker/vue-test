@@ -1,4 +1,4 @@
-body{
+body {
   display: flex;
   flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, sans-serif;
@@ -6,7 +6,7 @@ body{
   min-height: 100vh;
 }
 
-main{
+main {
   flex: 1;
 }
 
@@ -16,26 +16,38 @@ main{
   width: 80%;
 }
 
-table{
+header{
+  background-color: var(--dark);
+  box-shadow: 0 0 .5rem var(--dark);
+  color: var(--white);
+}
+
+footer{
+  background-color: var(--dark);
+  box-shadow: 0 0 .5rem var(--dark);
+  color: var(--white);
+}
+
+table {
   border: .125rem solid var(--dark);
   border-collapse: collapse;
   text-align: center;
 
-  & thead{
+  & thead {
     background-color: var(--primary);
     border-bottom: .125rem solid var(--dark);
     color: var(--white);
   }
 
-  & tbody{
+  & tbody {
 
-    & tr{
+    & tr {
 
-      &:nth-child(even){
+      &:nth-child(even) {
         background-color: var(--accent);
       }
 
-      &:hover{
+      &:hover {
         background-color: var(--lightprimary);
         color: var(--white);
       }

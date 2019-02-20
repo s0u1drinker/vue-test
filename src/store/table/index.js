@@ -1,7 +1,34 @@
 const state = {
+  th: [
+    {
+      title: 'Date',
+      sort: true,
+      direction: ''
+    },
+    {
+      title: 'Weight before',
+      sort: true,
+      direction: ''
+    },
+    {
+      title: 'Distance',
+      sort: true,
+      direction: ''
+    },
+    {
+      title: 'Weight after',
+      sort: true,
+      direction: ''
+    },
+    {
+      title: 'Temperature',
+      sort: true,
+      direction: ''
+    }
+  ],
   statistic: [
     {
-      date: '29.01.2019',
+      date: '28.01.2019',
       weight_before: 108.9,
       distance: 2,
       weight_after: 108.5,
@@ -57,6 +84,9 @@ const mutations = {}
 const actions = {}
 
 const getters = {
+  getTableHeader(state) {
+    return state.th
+  },
   getStatistic(state) {
     return state.statistic
   }

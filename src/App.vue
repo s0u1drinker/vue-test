@@ -3,7 +3,7 @@
     <Header />
     <main>
       <div class="container">
-        <Table :caption='tableCaption' :statistic='statistic'/>
+        <Table :caption='tableCaption' :th='th' :statistic='statistic' />
       </div>
     </main>
     <Footer />
@@ -22,6 +22,9 @@ export default {
     }
   },
   computed: {
+    th() {
+      return this.$store.getters.getTableHeader
+    },
     statistic() {
       return this.$store.getters.getStatistic
     }

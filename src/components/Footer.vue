@@ -9,6 +9,5 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-@import '../assets/css/settings.postcss';
 @import '../assets/css/footer.postcss';
 </style>

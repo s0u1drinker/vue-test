@@ -3,11 +3,7 @@
     <caption>Table &laquo;{{ caption }}&raquo;</caption>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Weight before</th>
-        <th>Distance</th>
-        <th>Weight after</th>
-        <th>Temperature</th>
+        <th :class="{sorting: value.sort}" @click="sort(value.direction)" v-for="(value, key) in th" :key="key">{{ value.title }}</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +17,17 @@
 <script>
 export default {
   name: 'Table',
-  props: ['caption', 'statistic'],
+  props: ['caption', 'th', 'statistic'],
+  data: function () {
+    return {
+      //
+    }
+  },
+  methods: {
+    sort: function (direction) {
+      //
+    }
+  }
 }
 </script>
 
