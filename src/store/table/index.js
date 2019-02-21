@@ -1,31 +1,37 @@
+import { stat } from "fs";
+
 const state = {
   th: [
     {
       title: 'Date',
-      sort: true,
-      direction: ''
+      name: 'date',
+      sort: true
     },
     {
       title: 'Weight before',
-      sort: true,
-      direction: ''
+      name: 'weight_before',
+      sort: true
     },
     {
       title: 'Distance',
-      sort: true,
-      direction: ''
+      name: 'distance',
+      sort: true
     },
     {
       title: 'Weight after',
-      sort: true,
-      direction: ''
+      name: 'weight_after',
+      sort: true
     },
     {
       title: 'Temperature',
-      sort: true,
-      direction: ''
+      name: 'temperature',
+      sort: true
     }
   ],
+  sorting: {
+    field: false,
+    direction: false
+  },
   statistic: [
     {
       date: '28.01.2019',
@@ -79,7 +85,25 @@ const state = {
   ]
 }
 
-const mutations = {}
+const mutations = {
+  changeDirection(state, name) {
+    if(state.sorting.field !== name) {
+      state.sorting.field = name
+      state.sorting.direction = 'asc'
+    } else {
+      state.sorting.direction = (state.sorting.direction === 'asc') ? 'desc' : 'asc'
+    }
+  },
+  sortStatistic(state) {
+    state.statistic.sort(function (a, b) {
+      if(state.sorting.direction === 'asc') {
+        return (a[state.sorting.field] > b[state.sorting.field]) ? 1 : (a[state.sorting.field] < b[state.sorting.field]) ? -1 : 0
+      } else {
+        return (a[state.sorting.field] < b[state.sorting.field]) ? 1 : (a[state.sorting.field] > b[state.sorting.field]) ? -1 : 0
+      }
+    })
+  }
+}
 
 const actions = {}
 
@@ -89,6 +113,9 @@ const getters = {
   },
   getStatistic(state) {
     return state.statistic
+  },
+  getSortingDirection(state) {
+    return state.sorting.direction
   }
 }
 

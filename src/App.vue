@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
 import Table from './Components/Table'
@@ -22,12 +23,10 @@ export default {
     }
   },
   computed: {
-    th() {
-      return this.$store.getters.getTableHeader
-    },
-    statistic() {
-      return this.$store.getters.getStatistic
-    }
+    ...mapGetters({
+      th: 'getTableHeader',
+      statistic: 'getStatistic'
+    })
   },
   components: {
     Header,

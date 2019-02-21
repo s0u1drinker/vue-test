@@ -3,7 +3,7 @@
     <caption>Table &laquo;{{ caption }}&raquo;</caption>
     <thead>
       <tr>
-        <th :class="{sorting: value.sort}" @click="sort(value.direction)" v-for="(value, key) in th" :key="key">{{ value.title }}</th>
+        <th :class="[{sorting: value.sort}, (key === selectedTh) ? sortingClass : false]" @click="sort($event.target, value.name)" v-for="(value, key) in th" :key="key">{{ value.title }}</th>
       </tr>
     </thead>
     <tbody>
@@ -15,17 +15,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Table',
   props: ['caption', 'th', 'statistic'],
   data: function () {
     return {
-      //
+      sortingClass: false,
+      selectedTh: false
     }
   },
+  computed: {
+    ...mapGetters({
+      sortingDirection: 'getSortingDirection'
+    })
+  },
   methods: {
-    sort: function (direction) {
-      //
+    sort: function (target, name) {
+      this.$store.commit('changeDirection', name)
+      this.$store.commit('sortStatistic')
+
+      this.sortingClass = `sorting_${this.sortingDirection}`
+      this.selectedTh = target.cellIndex
     }
   }
 }
