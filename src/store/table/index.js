@@ -26,6 +26,11 @@ const state = {
       title: 'Temperature',
       name: 'temperature',
       sort: true
+    },
+    {
+      title: 'Difference',
+      name: 'difference',
+      sort: true
     }
   ],
   sorting: {
@@ -34,53 +39,74 @@ const state = {
   },
   statistic: [
     {
-      date: '28.01.2019',
+      date: 1548712800,
       weight_before: 108.9,
       distance: 2,
       weight_after: 108.5,
-      temperature: -2
+      temperature: -2,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '29.01.2019',
+      date: 1548799200,
       weight_before: 108.8,
       distance: 4.5,
       weight_after: 107.5,
-      temperature: -4
+      temperature: -4,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '30.01.2019',
+      date: 1548885600,
       weight_before: 108.5,
       distance: 4.5,
       weight_after: 107.3,
-      temperature: -5
+      temperature: -5,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '31.01.2019',
+      date: 1548972000,
       weight_before: 108.5,
       distance: 2,
       weight_after: 108.1,
-      temperature: -10
+      temperature: -10,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '01.02.2019',
+      date: 1549058400,
       weight_before: 109.1,
       distance: 2,
       weight_after: 108.7,
-      temperature: -11
+      temperature: -11,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '02.02.2019',
+      date: 1549144800,
       weight_before: 109.8,
       distance: 5.5,
       weight_after: 108.4,
-      temperature: -8
+      temperature: -8,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     },
     {
-      date: '03.02.2019',
+      date: 1549231200,
       weight_before: 109.7,
       distance: 2.5,
       weight_after: 108.7,
-      temperature: -8
+      temperature: -8,
+      get difference() {
+        return (this.weight_before - this.weight_after).toFixed(1)
+      }
     }
   ]
 }

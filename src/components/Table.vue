@@ -8,13 +8,17 @@
     </thead>
     <tbody>
       <tr v-for="(day, index) in statistic" :key="index">
-        <td v-for="(value, key) in day" :key="key">{{ value }}</td>
+        <td v-for="(value, key) in day" :key="key">{{ (key === 'date') ? getBeautifulDate(value) : value }}</td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+/**
+ * TODO:
+ * 1. Search input;
+ */
 import { mapGetters } from 'vuex'
 
 export default {
@@ -38,6 +42,13 @@ export default {
 
       this.sortingClass = `sorting_${this.sortingDirection}`
       this.selectedTh = target.cellIndex
+    },
+    getBeautifulDate: (timestamp) => {
+      const date = new Date(timestamp * 1000)
+      const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+      const day = (date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()
+
+      return `${day}.${months[date.getMonth()]}.${date.getFullYear()}`
     }
   }
 }
