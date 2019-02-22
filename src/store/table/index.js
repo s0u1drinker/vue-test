@@ -5,32 +5,56 @@ const state = {
     {
       title: 'Date',
       name: 'date',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     },
     {
       title: 'Weight before',
       name: 'weight_before',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     },
     {
       title: 'Distance',
       name: 'distance',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     },
     {
       title: 'Weight after',
       name: 'weight_after',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     },
     {
       title: 'Temperature',
       name: 'temperature',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     },
     {
       title: 'Difference',
       name: 'difference',
-      sort: true
+      sort: true,
+      filter: {
+        show: true,
+        text: ''
+      }
     }
   ],
   sorting: {

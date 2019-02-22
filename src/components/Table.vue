@@ -1,9 +1,14 @@
 <template>
-  <table>
+  <table class="table">
     <caption>Table &laquo;{{ caption }}&raquo;</caption>
     <thead>
       <tr>
-        <th :class="[{sorting: value.sort}, (key === selectedTh) ? sortingClass : false]" @click="sort($event.target, value.name)" v-for="(value, key) in th" :key="key">{{ value.title }}</th>
+        <th :class="[{sorting: value.sort}, (key === selectedTh) ? sortingClass : false]"
+            @click="sort($event.target, value.name)"
+            v-for="(value, key) in th" :key="key">
+          {{ value.title }}
+          <input type="text" class="table__filter" v-if="value.filter.show" @keyup="filter(event)">
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -15,10 +20,6 @@
 </template>
 
 <script>
-/**
- * TODO:
- * 1. Search input;
- */
 import { mapGetters } from 'vuex'
 
 export default {
@@ -37,11 +38,13 @@ export default {
   },
   methods: {
     sort: function (target, name) {
-      this.$store.commit('changeDirection', name)
-      this.$store.commit('sortStatistic')
+      if(target.classList.contains('sorting')) {
+        this.$store.commit('changeDirection', name)
+        this.$store.commit('sortStatistic')
 
-      this.sortingClass = `sorting_${this.sortingDirection}`
-      this.selectedTh = target.cellIndex
+        this.sortingClass = `sorting_${this.sortingDirection}`
+        this.selectedTh = target.cellIndex
+      }
     },
     getBeautifulDate: (timestamp) => {
       const date = new Date(timestamp * 1000)

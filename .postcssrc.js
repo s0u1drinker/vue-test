@@ -5,6 +5,7 @@ module.exports = {
     "postcss-import": {},
     "postcss-url": {},
     "postcss-color-function": {},
-    "postcss-cssnext": {}
+    "postcss-cssnext": {},
+    "postcss-nested": {}
   }
 }
