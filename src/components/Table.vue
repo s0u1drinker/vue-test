@@ -7,7 +7,7 @@
             @click="sort($event.target, value.name)"
             v-for="(value, key) in th" :key="key">
           {{ value.title }}
-          <input type="text" class="table__filter" v-if="value.filter.show" @keyup="filter(event)">
+          <input type="text" class="table__filter" v-if="value.filter.show" @keyup="filter($event, key, value.filter.text)" v-model="value.filter.text">
         </th>
       </tr>
     </thead>
@@ -28,7 +28,8 @@ export default {
   data: function () {
     return {
       sortingClass: false,
-      selectedTh: false
+      selectedTh: false,
+      initialData: false
     }
   },
   computed: {
@@ -52,7 +53,31 @@ export default {
       const day = (date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()
 
       return `${day}.${months[date.getMonth()]}.${date.getFullYear()}`
+    },
+    filter: function (event, id, text) {
+      if(text.length > 1) {
+        switch(text[0]) {
+          case '!':
+            this.$store.commit('filterNot', id)
+            break;
+          case '>':
+            (text[1] === '=') ? this.$store.commit('filterMoreOrEqual', id) : this.$store.commit('filterMore', id)
+            break;
+          case '<':
+            (text[1] === '=') ? this.$store.commit('filterLessOrEqual', id) : this.$store.commit('filterLess', id)
+            break;
+          case '=':
+            this.$store.commit('filterEqual', id)
+            break;
+          default:
+            event.target.classList.add('table__filter_error')
+            break;
+        }
+      }
     }
+  },
+  created() {
+    this.$store.commit('copyInitialData')
   }
 }
 </script>

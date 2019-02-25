@@ -61,6 +61,7 @@ const state = {
     field: false,
     direction: false
   },
+  initialData: false,
   statistic: [
     {
       date: 1548712800,
@@ -151,6 +152,37 @@ const mutations = {
       } else {
         return (a[state.sorting.field] < b[state.sorting.field]) ? 1 : (a[state.sorting.field] > b[state.sorting.field]) ? -1 : 0
       }
+    })
+  },
+  copyInitialData(state) {
+    state.initialData = state.statistic
+  },
+  filterNot(state, key) {
+    state.statistic = state.statistic.filter(function(num) {
+      return num[ state.th[key].name ] !== parseInt(state.th[key].filter.text.slice(1))
+    })
+  },
+  filterMore(state, key) {
+    state.statistic = state.statistic.filter(function(num) {
+      return num[ state.th[key].name ] > parseInt(state.th[key].filter.text.slice(1))
+    })
+  },
+  filterMoreOrEqual(state, key) {
+    state.statistic = state.statistic.filter(function(num) {
+      return num[ state.th[key].name ] >= parseInt(state.th[key].filter.text.slice(1))
+    })
+  },
+  filterLess(state, key) {
+    state.statistic = state.statistic.filter(function(num) {
+      return num[ state.th[key].name ] < parseInt(state.th[key].filter.text.slice(1))
+    })
+  },
+  filterLessOrEqual(state, key) {state.statistic = state.statistic.filter(function(num) {
+    return num[ state.th[key].name ] <= parseInt(state.th[key].filter.text.slice(1))
+  })},
+  filterEqual(state, key) {
+    state.statistic = state.statistic.filter(function(num) {
+      return num[ state.th[key].name ] == state.th[key].filter.text.slice(1)
     })
   }
 }
