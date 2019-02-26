@@ -1,5 +1,3 @@
-import { stat } from "fs";
-
 const state = {
   th: [
     {
@@ -62,6 +60,10 @@ const state = {
     direction: false
   },
   initialData: false,
+  filter: {
+    multifilter: false,
+    query: {}
+  },
   statistic: [
     {
       date: 1548712800,
@@ -157,37 +159,65 @@ const mutations = {
   copyInitialData(state) {
     state.initialData = state.statistic
   },
-  filterNot(state, key) {
-    state.statistic = state.statistic.filter(function(num) {
-      return num[ state.th[key].name ] !== parseInt(state.th[key].filter.text.slice(1))
+  setInitialData(state) {
+    state.statistic = state.initialData
+  },
+  filterData(state, params) {
+    const [action, key] = params
+
+    state.statistic = state.initialData.filter(function(num) {
+      switch(action) {
+        case "!":
+          return num[ state.th[key].name ] !== parseFloat(state.th[key].filter.text.slice(1))
+        case "=":
+          return num[ state.th[key].name ] === parseFloat(state.th[key].filter.text.slice(1))
+        case ">":
+          return num[ state.th[key].name ] > parseFloat(state.th[key].filter.text.slice(1))
+        case "<":
+          return num[ state.th[key].name ] < parseFloat(state.th[key].filter.text.slice(1))
+        case ">=":
+          return num[ state.th[key].name ] >= parseFloat(state.th[key].filter.text.slice(2))
+        case "<=":
+          return num[ state.th[key].name ] <= parseFloat(state.th[key].filter.text.slice(2))
+        default:
+          break;
+      }
     })
   },
-  filterMore(state, key) {
-    state.statistic = state.statistic.filter(function(num) {
-      return num[ state.th[key].name ] > parseInt(state.th[key].filter.text.slice(1))
-    })
+  addToFilterQuery(state, id) {
+    if(!state.filter.query[id]) {
+      state.filter.query[id] = true
+    }
   },
-  filterMoreOrEqual(state, key) {
-    state.statistic = state.statistic.filter(function(num) {
-      return num[ state.th[key].name ] >= parseInt(state.th[key].filter.text.slice(1))
-    })
-  },
-  filterLess(state, key) {
-    state.statistic = state.statistic.filter(function(num) {
-      return num[ state.th[key].name ] < parseInt(state.th[key].filter.text.slice(1))
-    })
-  },
-  filterLessOrEqual(state, key) {state.statistic = state.statistic.filter(function(num) {
-    return num[ state.th[key].name ] <= parseInt(state.th[key].filter.text.slice(1))
-  })},
-  filterEqual(state, key) {
-    state.statistic = state.statistic.filter(function(num) {
-      return num[ state.th[key].name ] == state.th[key].filter.text.slice(1)
-    })
+  removeFromFilterQuery(state, id) {
+    delete state.filter.query[id]
   }
 }
 
-const actions = {}
+const actions = {
+  setFilters({commit, state, getters}, key = false) {
+    if(key) {
+      const actionType = getters.getActionType(key)
+  
+      if(actionType) {
+        commit('addToFilterQuery', key)
+        commit('filterData', [actionType, key])
+      } else {
+        commit('removeFromFilterQuery', i)
+      }
+    } else {
+      state.filter.query.forEach(function(item, i) {
+        const actionType = getters.getActionType(i)
+
+        if(actionType) {
+          commit('filterData', [actionType, i])
+        } else {
+          commit('removeFromFilterQuery', i)
+        }
+      })
+    }
+  }
+}
 
 const getters = {
   getTableHeader(state) {
@@ -198,6 +228,22 @@ const getters = {
   },
   getSortingDirection(state) {
     return state.sorting.direction
+  },
+  getActionType: state => key => {
+    const text = state.th[key].filter.text
+
+    if((text.length > 1) && (text[1] != '=') || (text.length > 2) && (text[1] == '=')) {
+      switch(text[0]) {
+        case '!':
+        case '=':
+          return text[0]
+        case '>':
+        case '<':
+          return (text[1] === '=') ? `${text[0]}${text[1]}` : text[0]
+        default:
+          return false
+      }
+    }
   }
 }
 

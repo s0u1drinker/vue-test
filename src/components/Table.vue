@@ -7,7 +7,7 @@
             @click="sort($event.target, value.name)"
             v-for="(value, key) in th" :key="key">
           {{ value.title }}
-          <input type="text" class="table__filter" v-if="value.filter.show" @keyup="filter($event, key, value.filter.text)" v-model="value.filter.text">
+          <input type="text" class="table__filter" v-if="value.filter.show" @keyup="filter($event, key)" v-model="value.filter.text">
         </th>
       </tr>
     </thead>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Table',
@@ -33,17 +33,27 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      sortingDirection: 'getSortingDirection'
-    })
+    ...mapGetters([
+      'getSortingDirection',
+      'getActionType'
+    ])
   },
   methods: {
+    ...mapActions([
+      'setFilters'
+    ]),
+    ...mapMutations([
+      'changeDirection',
+      'sortStatistic',
+      'setInitialData',
+      'copyInitialData'
+    ]),
     sort: function (target, name) {
       if(target.classList.contains('sorting')) {
-        this.$store.commit('changeDirection', name)
-        this.$store.commit('sortStatistic')
+        this.changeDirection(name)
+        this.sortStatistic()
 
-        this.sortingClass = `sorting_${this.sortingDirection}`
+        this.sortingClass = `sorting_${this.getSortingDirection}`
         this.selectedTh = target.cellIndex
       }
     },
@@ -54,30 +64,19 @@ export default {
 
       return `${day}.${months[date.getMonth()]}.${date.getFullYear()}`
     },
-    filter: function (event, id, text) {
-      if(text.length > 1) {
-        switch(text[0]) {
-          case '!':
-            this.$store.commit('filterNot', id)
-            break;
-          case '>':
-            (text[1] === '=') ? this.$store.commit('filterMoreOrEqual', id) : this.$store.commit('filterMore', id)
-            break;
-          case '<':
-            (text[1] === '=') ? this.$store.commit('filterLessOrEqual', id) : this.$store.commit('filterLess', id)
-            break;
-          case '=':
-            this.$store.commit('filterEqual', id)
-            break;
-          default:
-            event.target.classList.add('table__filter_error')
-            break;
+    filter: function (event, id) {
+      if((event.keyCode == 8) || (event.keyCode == 46)) {
+        this.setInitialData()
+        this.setFilters()
+      } else {
+        if(this.getActionType(id)) {
+          this.setFilters(id)
         }
       }
     }
   },
   created() {
-    this.$store.commit('copyInitialData')
+    this.copyInitialData()
   }
 }
 </script>
