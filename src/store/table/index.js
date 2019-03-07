@@ -162,11 +162,11 @@ const mutations = {
   setInitialData(state) {
     state.statistic = state.initialData
   },
-  filterData(state, params) {
-    const [action, key] = params
+  filterStatistic(state, params) {
+    let [key, actionType] = params
 
-    state.statistic = state.initialData.filter(function(num) {
-      switch(action) {
+    state.statistic = state.statistic.filter(function(num) {
+      switch(actionType) {
         case "!":
           return num[ state.th[key].name ] !== parseFloat(state.th[key].filter.text.slice(1))
         case "=":
@@ -195,26 +195,33 @@ const mutations = {
 }
 
 const actions = {
-  setFilters({commit, state, getters}, key = false) {
+  setFilters({commit, state, getters, dispatch}, key = false) {
     if(key) {
       const actionType = getters.getActionType(key)
   
       if(actionType) {
         commit('addToFilterQuery', key)
-        commit('filterData', [actionType, key])
       } else {
-        commit('removeFromFilterQuery', i)
+        commit('removeFromFilterQuery', key)
       }
+      dispatch('filterData')
     } else {
-      state.filter.query.forEach(function(item, i) {
+      for(let i in state.filter.query) {
         const actionType = getters.getActionType(i)
 
-        if(actionType) {
-          commit('filterData', [actionType, i])
-        } else {
+        if(!actionType) {
           commit('removeFromFilterQuery', i)
         }
-      })
+      }
+      dispatch('filterData')
+    }
+  },
+  filterData({commit, state, getters}) {
+    for(let key in state.filter.query) {
+      if(state.statistic.length < 1) {
+        commit('setInitialData')
+      }
+      commit('filterStatistic', [key, getters.getActionType(key)])
     }
   }
 }
